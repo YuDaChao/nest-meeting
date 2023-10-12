@@ -8,7 +8,7 @@ export class PrismaService
 {
   constructor() {
     super({
-      log: [{ level: 'info', emit: 'stdout' }],
+      log: [{ level: 'query', emit: 'stdout' }],
     });
   }
   async onModuleInit() {
