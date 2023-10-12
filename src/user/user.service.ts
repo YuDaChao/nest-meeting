@@ -107,6 +107,7 @@ export class UserService {
 
   /**
    * 修改用户基本信息
+   * @param userId
    * @param updateUserDto
    */
   async updateUser(userId: number, updateUserDto: UpdateUserDto) {
@@ -123,6 +124,7 @@ export class UserService {
 
   /**
    * 修改用户密码
+   * @param userId
    * @param updatePasswordDto
    */
   async updateUserPassword(
