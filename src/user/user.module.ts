@@ -7,5 +7,6 @@ import { HashingModule } from '../hashing/hashing.module';
   imports: [HashingModule],
   providers: [UserService],
   controllers: [UserController],
+  exports: [UserService],
 })
 export class UserModule {}

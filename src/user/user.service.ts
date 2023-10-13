@@ -131,9 +131,7 @@ export class UserService {
     userId: number,
     updatePasswordDto: UpdatePasswordDto,
   ) {
-    const user = await this.prismaService.user.findUnique({
-      where: { id: userId },
-    });
+    const user = await this.findUserById(userId);
     if (!user) {
       throw new BadRequestException();
     }
@@ -150,5 +148,16 @@ export class UserService {
       where: { id: userId },
       data: { password: hashPassword },
     });
+  }
+
+  /**
+   * 根据用户 id获取用户信息
+   * @param userId
+   */
+  async findUserById(userId: number) {
+    return this.prismaService.user.findUnique({ where: { id: userId } });
+  }
+  async findUserByEmail(email: string) {
+    return this.prismaService.user.findUnique({ where: { email } });
   }
 }

@@ -1,14 +1,22 @@
-import { ClassSerializerInterceptor, Module } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { HashingModule } from './hashing/hashing.module';
 import { BcryptService } from './bcrypt/bcrypt.service';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { AuthModule } from './auth/auth.module';
+import { AccessTokenGuard } from './auth/guard/access-token.guard';
+import { JwtMiddleware } from './common/middleware/jwt.middleware';
 
 @Module({
-  imports: [PrismaModule, UserModule, HashingModule],
+  imports: [PrismaModule, UserModule, HashingModule, AuthModule],
   controllers: [AppController],
   providers: [
     AppService,
@@ -17,6 +25,14 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
     },
+    {
+      provide: APP_GUARD,
+      useClass: AccessTokenGuard,
+    },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): any {
+    consumer.apply(JwtMiddleware).forRoutes('*');
+  }
+}

@@ -12,7 +12,7 @@ import { Type } from 'class-transformer';
 import { Prisma } from '@prisma/client';
 
 import { PageDto } from '../../common/dto/page.dto';
-import { SortOder } from '../../common/constants';
+import { SortOder } from '../../common/constant/constants';
 
 export class UserOrder {
   @IsEnum(SortOder, { message: '参数不合法' })
