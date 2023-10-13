@@ -15,9 +15,10 @@ import { AuthModule } from './auth/auth.module';
 import { AccessTokenGuard } from './auth/guard/access-token.guard';
 import { JwtMiddleware } from './common/middleware/jwt.middleware';
 import { RoomModule } from './room/room.module';
+import { MeetingModule } from './meeting/meeting.module';
 
 @Module({
-  imports: [PrismaModule, UserModule, HashingModule, AuthModule, RoomModule],
+  imports: [PrismaModule, UserModule, HashingModule, AuthModule, RoomModule, MeetingModule],
   controllers: [AppController],
   providers: [
     AppService,
