@@ -28,9 +28,9 @@ export class AccessTokenGuard implements CanActivate {
         return true;
       }
       const request = context.switchToHttp().getRequest();
-      const [_, token] = request.headers['authorization']?.split(' ') ?? [];
+      const [, token] = request.headers['authorization']?.split(' ') ?? [];
       if (!token) {
-        throw new Error('签名不存在');
+        throw new UnauthorizedException('签名不存在');
       }
       await this.jwtService.verifyAsync(token, {
         secret: process.env.JWT_SECRET,

@@ -1,9 +1,14 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { User } from '@prisma/client';
 import { UserService } from '../user/user.service';
 import { HashingService } from '../hashing/hashing.service';
 import { JwtService } from '@nestjs/jwt';
 import * as process from 'process';
+import { CreateUserDto } from '../user/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -28,13 +33,20 @@ export class AuthService {
     };
   }
 
+  async signUp(createUserDto: CreateUserDto) {
+    const isExist = await this.userService.findUserByEmail(createUserDto.email);
+    if (isExist) {
+      throw new ConflictException('邮箱已被注册');
+    }
+    return this.userService.create(createUserDto);
+  }
+
   async generateToken(user: User) {
-    const token = await this.jwtService.signAsync(
+    return await this.jwtService.signAsync(
       { userId: user.id, email: user.email },
       {
         secret: process.env.JWT_SECRET,
       },
     );
-    return token;
   }
 }
