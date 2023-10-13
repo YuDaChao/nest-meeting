@@ -14,9 +14,10 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
 import { AccessTokenGuard } from './auth/guard/access-token.guard';
 import { JwtMiddleware } from './common/middleware/jwt.middleware';
+import { RoomModule } from './room/room.module';
 
 @Module({
-  imports: [PrismaModule, UserModule, HashingModule, AuthModule],
+  imports: [PrismaModule, UserModule, HashingModule, AuthModule, RoomModule],
   controllers: [AppController],
   providers: [
     AppService,

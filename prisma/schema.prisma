@@ -38,13 +38,13 @@ model User {
 model Room {
 	id       Int     @id @default(autoincrement())
 	/// 会议室名称
-	title    String  @db.VarChar(20)
+	title    String  @unique @db.VarChar(20)
 	/// 会议室容量
 	cap      Int     @db.TinyInt()
 	/// 会议室详细地址
 	address  String  @db.VarChar(20)
 	/// 是否禁用
-	disbaled Boolean @default(false)
+	disabled Boolean @default(false)
 
 	@@map("room")
 }
